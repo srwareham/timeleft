@@ -32,7 +32,7 @@ with open('HISTORY.rst', 'r', 'utf-8') as f:
     history = f.read()
 
 setup(
-    name='requests',
+    name='timeleft',
     version=version,
     description='A simple command line utility for displaying the amount of time left in a download.',
     long_description=readme + '\n\n' + history,
