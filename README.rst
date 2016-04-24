@@ -1,5 +1,8 @@
-Timeleft
+Timeleft 
 ========
+.. image:: https://travis-ci.org/srwareham/timeleft.svg?branch=master
+    :target: https://travis-ci.org/srwareham/timeleft
+    :alt: Build Status
 
 
 Timeleft is a simple command line utility for displaying the amount of time left in a download. In the command line, one simply needs to input the file size remaining and the average download speed expected. Timeleft will output the time remaining in units that are easy to read.
