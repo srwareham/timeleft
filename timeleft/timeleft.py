@@ -40,48 +40,25 @@ SIZE = "size"
 # irrelevant because the numerator and denominator will cancel out
 BASE_UNIT = 1024
 
+PREFIXES = {
+    "b": 1,
+    "B": 8,
+    "K": BASE_UNIT,
+    "M": BASE_UNIT ** 2,
+    "G": BASE_UNIT ** 3,
+    "T": BASE_UNIT ** 4,
+    "P": BASE_UNIT ** 5,
+    "E": BASE_UNIT ** 6,
+    "Z": BASE_UNIT ** 7,
+    "Y": BASE_UNIT ** 8,
+}
+
 logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
 rootLogger = logging.getLogger()
 consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(logFormatter)
 rootLogger.addHandler(consoleHandler)
 rootLogger.setLevel(logging.ERROR)
-
-
-def _get_prefix_multiplier(prefix):
-    prefixes = {
-        "b": 1,
-        "B": 8,
-        "K": BASE_UNIT,
-        "M": BASE_UNIT**2,
-        "G": BASE_UNIT**3,
-        "T": BASE_UNIT**4,
-        "P": BASE_UNIT**5,
-        "E": BASE_UNIT**6,
-        "Z": BASE_UNIT**7,
-        "Y": BASE_UNIT**8,
-    }
-    if prefix in prefixes:
-        return prefixes[prefix]
-    elif prefix.upper() in prefixes:
-        return prefixes[prefix.upper()]
-    else:
-        raise RuntimeError("\"" + prefix + "\" is not a known unit prefix!")
-
-
-def _get_base_amount(unit):
-    # Match from a starting alpha character until the first instance of "/" "ps" or "PS
-    # Also match typos for ps
-    match = re.search('^([a-zA-Z]+)(?:/|ps|PS|pS|Ps)', unit)
-    if match is not None:
-        relevant_unit = match.group(1)
-    else:
-        relevant_unit = unit
-    base_amount = 1.0
-    rootLogger.log(logging.DEBUG, "Relevant unit for \"" + unit + "\" is \"" + relevant_unit + "\"")
-    for character in relevant_unit:
-        base_amount *= _get_prefix_multiplier(character)
-    return base_amount
 
 
 class Measurement:
@@ -101,7 +78,7 @@ class Measurement:
             self.number = float(match.group(1))
             self.unit = match.group(2)
             rootLogger.log(logging.DEBUG, "Number is: " + str(self.number) + " unit is: " + self.unit)
-            self.base_amount = _get_base_amount(self.unit)
+            self.base_amount = self._get_base_value(self.unit)
         else:
             raise RuntimeError("\"" + arg + "\" is not a valid number + unit of measure!")
 
@@ -127,9 +104,32 @@ class Measurement:
         For size, this is bits.
         For speed, this is bits per second
         """
-        base_value = _get_base_amount(self.unit)
+        base_value = self._get_base_value(self.unit)
         base_amount = float(base_value) * self.number
         rootLogger.log(logging.DEBUG, "Base amount for measurement: \"" + self.arg + "\" is: " + str(base_amount))
+        return base_amount
+
+    @staticmethod
+    def _get_prefix_multiplier(prefix):
+        if prefix in PREFIXES:
+            return PREFIXES[prefix]
+        elif prefix.upper() in PREFIXES:
+            return PREFIXES[prefix.upper()]
+        else:
+            raise RuntimeError("\"" + prefix + "\" is not a known unit prefix!")
+
+    def _get_base_value(self, unit):
+        # Match from a starting alpha character until the first instance of "/" "ps" or "PS
+        # Also match case insensitive for ps
+        match = re.search('^([a-zA-Z]+)(?:/|ps|PS|pS|Ps)', unit)
+        if match is not None:
+            relevant_unit = match.group(1)
+        else:
+            relevant_unit = unit
+        base_amount = 1.0
+        rootLogger.log(logging.DEBUG, "Relevant unit for \"" + unit + "\" is \"" + relevant_unit + "\"")
+        for character in relevant_unit:
+            base_amount *= self._get_prefix_multiplier(character)
         return base_amount
 
 
