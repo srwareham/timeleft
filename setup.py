@@ -46,6 +46,7 @@ setup(
     description='A simple command line utility for displaying the amount of time left in a download.',
     long_description=readme + '\n\n' + history,
     author='Sean Wareham',
+    author_email='ebriouscoding@gmail.com',
     url='https://github.com/srwareham/timeleft',
     packages=packages,
     package_data={'': ['LICENSE']},
@@ -59,7 +60,7 @@ setup(
     zip_safe=False,
     classifiers=(
         'Development Status :: 3 - Alpha',
-        'Environment :: Console'
+        'Environment :: Console',
         'Intended Audience :: End Users/Desktop',
         'Natural Language :: English',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
