@@ -85,6 +85,10 @@ def _get_base_amount(unit):
 
 
 class Measurement:
+    """
+    Class to handle parsing of speed and size units. Creation of an object automatically parses the input text.
+    Raises RuntimeError on unknown unit type or improperly formatted input text.
+    """
     def __init__(self, arg):
         rootLogger.log(logging.DEBUG, "Creating measurement for: \"" + arg + "\"")
         self.arg = arg
@@ -97,6 +101,7 @@ class Measurement:
             self.number = float(match.group(1))
             self.unit = match.group(2)
             rootLogger.log(logging.DEBUG, "Number is: " + str(self.number) + " unit is: " + self.unit)
+            self.base_amount = _get_base_amount(self.unit)
         else:
             raise RuntimeError("\"" + arg + "\" is not a valid number + unit of measure!")
 
