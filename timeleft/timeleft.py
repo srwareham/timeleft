@@ -85,6 +85,13 @@ class Measurement:
     def __repr__(self):
         return "{Number: " + str(self.number) + ", Unit: " + self.unit + "}"
 
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.get_type() == other.get_type() and \
+               self.get_base_amount() == other.get_base_amount()
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def get_type(self):
         """
         Return the type of unit of measure (currently only speed and size)
