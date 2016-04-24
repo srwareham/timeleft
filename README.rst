@@ -45,7 +45,7 @@ Features
 Dependencies
 ------------
 
-Timeleft is tested on Python 2.7 and 3.5 but should work on all versions 2.6 and above. There are no dependencies outside of the standard library.
+Timeleft is tested on Python 2.7 and 3.5 but should work on all versions 2.6 and above. There are no dependencies outside of the standard library. Testing (optionally included) is handled with Pytest.
 
 
 Installation
