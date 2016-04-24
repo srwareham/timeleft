@@ -149,7 +149,10 @@ def get_measurements(args):
     :param args: A properly formatted array of string arguments
     :return: A list of parsed measurements.
     """
-    return [Measurement(arg) for arg in args]
+    if len(args) != 2:
+        raise RuntimeError("Must have exactly 2 arguments!")
+    else:
+        return [Measurement(arg) for arg in args]
 
 
 def get_duration_seconds(measurements):
@@ -216,13 +219,10 @@ def main():
     rootLogger.log(logging.INFO, "Starting main.")
     try:
         args = sys.argv[1:]
-        if len(args) != 2:
-            raise RuntimeError("Must have exactly 2 arguments!")
-        else:
-            measurements = get_measurements(args)
-            seconds = get_duration_seconds(measurements)
-            print(get_human_time(seconds))
-            rootLogger.log(logging.INFO, "Execution Complete!")
+        measurements = get_measurements(args)
+        seconds = get_duration_seconds(measurements)
+        print(get_human_time(seconds))
+        rootLogger.log(logging.INFO, "Execution Complete!")
     except RuntimeError as e:
         rootLogger.log(logging.ERROR, "RuntimeError: " + str(e))
 
