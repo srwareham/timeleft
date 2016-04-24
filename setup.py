@@ -18,6 +18,7 @@ packages = [
 ]
 
 requires = []
+test_requirements = ['pytest>=2.4.0']
 
 with open('timeleft/__init__.py', 'r') as fd:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
@@ -67,6 +68,6 @@ setup(
         'Topic :: Internet',
         'Topic :: Terminals',
         'Topic :: Utilities'
-
     ),
+    tests_require=test_requirements,
 )
