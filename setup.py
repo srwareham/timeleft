@@ -7,6 +7,14 @@ import sys
 from codecs import open
 
 from setuptools import setup
+from setuptools.command.test import test as TestCommand
+
+
+class PyTest(TestCommand):
+    def run_tests(self):
+        import pytest
+        error_number = pytest.main(['tests/test_timeleft.py'])
+        sys.exit(error_number)
 
 
 if sys.argv[-1] == 'publish':
@@ -69,5 +77,6 @@ setup(
         'Topic :: Terminals',
         'Topic :: Utilities'
     ),
+    cmdclass={'test': PyTest},
     tests_require=test_requirements,
 )
