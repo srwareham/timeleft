@@ -35,7 +35,7 @@ Arguments can be input in any order: the only requirement for arguments is that 
 Features
 --------
 
-- Both bits and bytes are supported as file and speed units are supported (don't let your ISP pull the wool over your eyes there). Accordingly, Timeleft is case-sensitive in that it distinguishes between B and b (i.e., 1MB = 8 Mb; all other characters *should* be case independent).
+- Both bits and bytes are supported as file and speed units (don't let your ISP pull the wool over your eyes there). Accordingly, Timeleft is case-sensitive in that it distinguishes between B and b (i.e., 1MB = 8 Mb; all other characters *should* be case independent).
 
 - Speed units can take the format of B/s or Bps (e.g., both 1MBps and 1MB/s are accepted).
 
